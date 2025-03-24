@@ -1,0 +1,70 @@
+classDiagram
+    class Team {
+        +String id
+        +String name
+        +String country
+        +int ranking
+        +List~Player~ players
+        +calculateTeamRanking()
+    }
+
+    class Player {
+        +String id
+        +String name
+        +String position
+        +Team team
+        +int individualRanking
+        +calculatePlayerRanking()
+    }
+
+    class Match {
+        +String id
+        +Team homeTeam
+        +Team awayTeam
+        +Date matchDate
+        +MatchResult result
+        +double predictionProbability
+        +analyzePrediction()
+    }
+
+    class News {
+        +String id
+        +String title
+        +String content
+        +Date publishDate
+        +Team relatedTeam
+        +Player relatedPlayer
+        +extractImpactFactors()
+    }
+
+    class MatchPredictor {
+        +predictMatchOutcome(Match match)
+        +calculateProbability(Team homeTeam, Team awayTeam)
+    }
+
+    class RankingCalculator {
+        +calculateTeamRanking(Team team)
+        +calculatePlayerRanking(Player player)
+    }
+
+    class DataAPIClient {
+        +fetchTeamData()
+        +fetchPlayerData()
+        +fetchMatchData()
+    }
+
+    class DataPersistence {
+        +saveTeam(Team team)
+        +savePlayer(Player player)
+        +saveMatch(Match match)
+        +retrieveTeamHistory()
+    }
+
+    Team "1" *-- "many" Player : contiene
+    Match "1" -- "2" Team : involucra
+    News "*" -- "1" Team : relacionado
+    News "*" -- "1" Player : relacionado
+    MatchPredictor ..> Match : predice
+    RankingCalculator ..> Team : calcula
+    RankingCalculator ..> Player : calcula
+    DataAPIClient ..> DataPersistence : persiste
